@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -10,9 +10,10 @@ export default function WelcomeScreen() {
       headerBackgroundColor={{ light: '#FFD700', dark: '#4B3F00' }}
       headerImage={<View style={styles.placeholderHeader} />}>
       <ThemedView style={styles.container}>
-        <ThemedText type="title" style={styles.welcomeText}>
-          Welcome to Studeliver!
+        <ThemedText type="title" style={styles.welcomeText} >
+          Welcome to Studeliver! wow
         </ThemedText>
+        
         <ThemedText style={styles.description}>
           Your one-stop solution for peer-to-peer food delivery. Join us in connecting students and making campus life more convenient.
         </ThemedText>
