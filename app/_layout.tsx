@@ -33,5 +33,5 @@ export default function Layout() {
 
   console.log('Rendering layout');
 
-  return <Stack />;
+  return <Stack screenOptions={{headerShown: false}}/>;
 }

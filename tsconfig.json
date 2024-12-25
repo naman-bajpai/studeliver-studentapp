@@ -6,7 +6,9 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true
   },
   "include": [
     "**/*.ts",
