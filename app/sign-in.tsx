@@ -59,7 +59,7 @@ const SignIn = () => {
             <Text
               className="text-sm text-primary font-okra-medium text-center"
 
-              onPress={() => alert('SignUp functionality is not implemented yet.')}
+              onPress={() => router.push('/log-in')}
             >
               Log In
             </Text>

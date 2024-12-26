@@ -9,6 +9,7 @@ export default function index () {
       <Text className='font-okra-bold text-black text-3xl'>This is the main page</Text>
       <Link href={"/"}>Home</Link>
       <Link href={"/sign-in"}>SignIn</Link>
+      <Link href={"/log-in"}>LogIn</Link>
       <Link href={"/explore"}>Explore</Link>
       <Link href={{pathname: "/restaurant/[id]", params:{id: '1'}}}>Profile</Link>
     </SafeAreaView>

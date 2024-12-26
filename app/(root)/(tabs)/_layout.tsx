@@ -1,10 +1,15 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
+import images from "@/constants/exportsImages"
 
 
 const TabIcon = ({focused, icon, title}: {focused: boolean, icon: any, title: string}) => {
-
+    return (
+        <View >
+            <Image source={icon}/>
+        </View>
+    )
 }
 
 const TabsLayout = () => {
@@ -17,7 +22,8 @@ const TabsLayout = () => {
         <Tabs.Screen name="index" options={{
             title: "Home",
             tabBarIcon: ({ focused }) => (
-                <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: focused? '#F12F59' : '#F8F8F8', justifyContent: 'center', alignItems: 'center' }}></View>)
+                <TabIcon icon={images.diningbell} focused={focused} title='Home'/>
+               )
         }} />
         {/* <Tabs.Screen name="Profile"  />
         <Tabs.Screen name="Cart"  /> */}
