@@ -1,27 +1,61 @@
 import { View, Text, Image, TextInput, Pressable, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import images from "@/constants/exportsImages";
+import images from '@/constants/exportsImages';
 import { router } from 'expo-router';
 
-const Login = () => {
-  const [showOtpInput, setShowOtpInput] = useState(false);
-  const [otp, setOtp] = useState(['', '', '', '']);
-  const [isOtpComplete, setIsOtpComplete] = useState(false);
+const Login: React.FC = () => {
+  const [showOtpInput, setShowOtpInput] = useState<boolean>(false);
+  const [otp, setOtp] = useState<string[]>(['', '', '', '']);
+  const [isOtpComplete, setIsOtpComplete] = useState<boolean>(false);
+  const [cooldown, setCooldown] = useState<number>(0); // Cooldown state for the button
+  const inputRefs = useRef<TextInput[]>([]); // Reference for OTP input fields
 
-  const handleOtpChange = (value : any, index : any) => {
+  // Handle OTP input
+  const handleOtpChange = (value: string, index: number) => {
     const newOtp = [...otp];
-    newOtp[index] = value;
+    newOtp[index] = value.slice(-1); // Only take the last character (for numeric inputs)
     setOtp(newOtp);
 
+    // Automatically focus the next input field if available
+    if (value && index < 3) {
+      inputRefs.current[index + 1]?.focus();
+    }
+
     // Check if OTP is complete
-    if (newOtp.every((digit) => digit !== '')) {
-      setIsOtpComplete(true);
-    } else {
-      setIsOtpComplete(false);
+    setIsOtpComplete(newOtp.every((digit) => digit !== ''));
+  };
+
+  // Handle backspace logic
+  const handleKeyPress = (e: any, index: number) => {
+    if (e.nativeEvent.key === 'Backspace' && otp[index] === '' && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    } else if (e.nativeEvent.key === 'Backspace') {
+      const newOtp = [...otp];
+      newOtp[index] = ''; // Clear the current field
+      setOtp(newOtp);
     }
   };
+
+  // Start cooldown when button is pressed
+  const handleRequestOtp = () => {
+    if (cooldown === 0) {
+      setShowOtpInput(true);
+      setCooldown(60); // Start a 60-second cooldown
+    }
+  };
+
+  // Countdown logic
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (cooldown > 0) {
+      timer = setTimeout(() => {
+        setCooldown((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [cooldown]);
 
   return (
     <SafeAreaView className="bg-white h-full font-okra">
@@ -61,11 +95,13 @@ const Login = () => {
               {otp.map((digit, index) => (
                 <TextInput
                   key={index}
+                  ref={(ref) => (inputRefs.current[index] = ref!)} // Store ref for each input
                   maxLength={1}
                   keyboardType="numeric"
                   value={digit}
                   onChangeText={(value) => handleOtpChange(value, index)}
-                  className="font-okra text-center border border-gray-500 p-4 rounded-xl text-lg w-10 h-10"
+                  onKeyPress={(e) => handleKeyPress(e, index)} // Handle backspace navigation
+                  className="font-okra text-center border border-gray-500 text-black p-4 rounded-xl text-lg w-16 "
                 />
               ))}
             </View>
@@ -74,18 +110,17 @@ const Login = () => {
           {/* Submit Button */}
           <View className="mt-2">
             <Pressable
-              onPress={() => {
-                if (!showOtpInput) {
-                  setShowOtpInput(true);
-                } else if (isOtpComplete) {
-                  alert('Log In functionality is not implemented yet.');
-                }
-              }}
+              onPress={handleRequestOtp}
+              disabled={cooldown > 0} // Disable button during cooldown
             >
               <Text
-                className="bg-primary text-center text-white py-3 rounded-3xl font-okra-bold"
+                className={`text-center py-3 rounded-3xl font-okra-bold ${
+                  cooldown > 0
+                    ? 'bg-gray-400 text-gray-700' // Cooldown button style
+                    : 'bg-primary text-white' // Active button style
+                }`}
               >
-                {isOtpComplete ? 'Log In' : 'Request OTP'}
+                {cooldown > 0 ? `Request OTP in ${cooldown} sec` : 'Request OTP'}
               </Text>
             </Pressable>
           </View>
