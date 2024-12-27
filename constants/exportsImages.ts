@@ -10,8 +10,9 @@ import burger from '@/assets/tabicons/burger.png'
 import pizza from '@/assets/tabicons/pizza.png'
 import coffee from '@/assets/tabicons/coffee.png'
 import drink from '@/assets/tabicons/cocktail.png'
-
+import backArrow from '@/assets/images/back_arrow.png'
+import loginmainbg from '@/assets/images/login_bg.png'
 
 export default {
-    logo_transparent, logo_whitebg, logo_transparent_cropped, signupbg, diningbell, diningbell_focused, loginbg, breakfast, pizza, burger, coffee, drink
+    logo_transparent, logo_whitebg, logo_transparent_cropped, signupbg, diningbell, diningbell_focused, loginbg, breakfast, pizza, burger, coffee, drink ,backArrow,loginmainbg
 }
