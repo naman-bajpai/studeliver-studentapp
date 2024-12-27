@@ -59,32 +59,48 @@ const Login: React.FC = () => {
 
   return (
     <SafeAreaView className="bg-white h-full font-okra">
-      <StatusBar style="light" backgroundColor="#000" />
+      <StatusBar style="light" backgroundColor="white" />
 
       <ScrollView contentContainerClassName="h-full flex flex-col justify-center items-center relative">
-        <View className="absolute flex flex-col w-full top-0 bg-accent h-full">
+        <Pressable
+          onPress={() => router.back()}
+          style={{
+            position: 'absolute',
+            top: 10,
+            left: 10,
+            zIndex: 20, // Ensure it's above other components
+          }}
+        >
           <Image
-            source={images.loginbg}
-            style={{ height: 300, resizeMode: 'contain' }}
-            className="w-full"
+            source={images.backArrow}
+            style={{
+              height: 30,
+              width: 30,
+              resizeMode: 'contain',
+              backgroundColor: 'transparent', // Debug: Temporarily set a background color
+            }}
           />
-          <View className="absolute top-0 left-0 w-full h-full bg-primary-200" />
-        </View>
+        </Pressable>
 
-        <View className="z-10 bg-accent mx-5 w-[90%] mt-28 rounded-3xl p-10 pt-5 shadow shadow-black elevation-md">
+        <View className="absolute flex flex-col w-full top-0 bg-white h-full">
           <Image
-            source={images.logo_transparent_cropped}
+            source={images.loginmainbg}
             alt="studeliver-logo"
             className=""
-            style={{ height: 100, width: '100%', resizeMode: 'contain' }}
+            style={{ height: 300, width: '100%', resizeMode: 'contain' }}
           />
+          <View className="absolute top-0 left-0 w-full h-full white" />
+        </View>
+
+        <View className="z-10 bg-white mx-5 w-[90%] mt-28 rounded-3xl p-10 pt-10 shadow shadow-black elevation-md">
+
           <Text className="font-okra-medium text-center text-2xl">
             Serving up delicious moments{'\n'}
             <Text className="font-okra-bold text-primary">Welcome Back!</Text>
           </Text>
           <View className="mt-6">
             <TextInput
-              placeholder="Enter your username OR University Email"
+              placeholder="Enter Your University Email"
               className="font-okra border border-gray-500 p-4 rounded-3xl mb-4 focus:border-primary focus:outline-none"
             />
           </View>
@@ -114,11 +130,10 @@ const Login: React.FC = () => {
               disabled={cooldown > 0} // Disable button during cooldown
             >
               <Text
-                className={`text-center py-3 rounded-3xl font-okra-bold ${
-                  cooldown > 0
-                    ? 'bg-gray-400 text-gray-700' // Cooldown button style
-                    : 'bg-primary text-white' // Active button style
-                }`}
+                className={`text-center py-3 rounded-3xl font-okra-bold ${cooldown > 0
+                  ? 'bg-gray-400 text-gray-700' // Cooldown button style
+                  : 'bg-primary text-white' // Active button style
+                  }`}
               >
                 {cooldown > 0 ? `Request OTP in ${cooldown} sec` : 'Request OTP'}
               </Text>
