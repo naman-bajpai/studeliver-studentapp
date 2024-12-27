@@ -18,6 +18,11 @@ module.exports = {
           100 : "#5e17eb0A",
           200 : "#205B9C1A",
         },
+        "secondary" : {
+          "DEFAULT" : "#fef08a",
+          100 : "#e6ca00",
+          200 : "#fef08a1A",
+        },
         "accent" : {
           "DEFAULT" : "#FBFBFD",
         },
