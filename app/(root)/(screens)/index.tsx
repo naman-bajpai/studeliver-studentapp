@@ -79,28 +79,42 @@ export default function index() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row py-1">
           {recommendedListData.map((restaurant) => (
             <TouchableOpacity
-              key={restaurant.id}
-              className="bg-gray-200  rounded-lg p-3 mr-4 min-w-48 shadow-black shadow-2xl"
-            >
+            key={restaurant.id}
+            className="bg-white rounded-lg p-3 mr-4 min-w-56 shadow-black shadow-lg drop-shadow-lg"
+          >
+            <View className="relative">
               <Image
                 source={{ uri: restaurant.imageUrl }}
                 className="h-32 w-full rounded-lg mb-2"
                 resizeMode="cover"
               />
-              <Text className="font-okra-bold text-base text-gray-800 truncate">
-                {restaurant.name}
-              </Text>
-              <Text className="font-okra text-sm text-green-600">{restaurant.discount}</Text>
-              <View className='flex flex-row justify-between'>
-                <View className=' px-0.5 rounded-lg'><Text>{restaurant.rating}</Text></View>
-                <Text className="bg-pink-200 px-2 rounded-full w-fit font-okra text-sm text-danger">{restaurant.distance}</Text>
-
-                
-                <Text className="bg-pink-200 px-2 rounded-full w-fit font-okra text-sm text-danger flex flex-row gap-1">{restaurant.distance}</Text>
+              {/* Discount Badge */}
+              <View className="absolute top-2 right-2 bg-green-500 px-2 py-1 rounded-full">
+                <Text className="text-white font-okra-bold text-xs">{restaurant.discount}</Text>
               </View>
-
-
-            </TouchableOpacity>
+            </View>
+          
+            <Text className="font-okra-bold text-base text-gray-800 truncate">
+              {restaurant.name}
+            </Text>
+            <View className="flex flex-row justify-between items-center">
+              <View className="px-0.5 rounded-lg">
+                <Text>⭐{restaurant.rating}</Text>
+              </View>
+              <View className="flex flex-row gap-2">
+                <View className="flex items-center">
+                  <Text className="bg-pink-200 px-2 rounded-full w-fit font-okra text-sm text-danger">
+                    {restaurant.distance}
+                  </Text>
+                </View>
+                <View className="flex flex-row gap-1 bg-pink-200 px-2 rounded-full justify-between items-center">
+                  <Clock color={'#F75555'} width={12} height={12} />
+                  <Text className="w-fit font-okra text-sm text-danger">{restaurant.time}</Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+          
           ))}
         </ScrollView>
       </View>
