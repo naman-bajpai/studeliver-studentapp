@@ -4,7 +4,7 @@ export const recommendedListData = [
         "name": "Punjabi Dhaba - Ali...",
         "discount": "40% OFF",
         "discountAmount": "up to ₹80",
-        "time": "25 mins",
+        "time": "25 m",
         "distance": "5.5 km",
         "rating": 4.2,
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/RX_THUMBNAIL/IMAGES/VENDOR/2024/9/26/adac4b96-5dea-4cd7-93f1-c654f9227a7f_82387%20(1).jpg"
@@ -14,7 +14,7 @@ export const recommendedListData = [
         "name": "Butter Story",
         "discount": "10% OFF",
         "discountAmount": "up to ₹40",
-        "time": "33 mins",
+        "time": "33 m",
         "rating": 4.5,
         "distance": "8.5 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/RX_THUMBNAIL/IMAGES/VENDOR/2024/6/11/a5cee281-c25f-494a-8cab-ba7f49acfb03_803172.JPG"
@@ -24,7 +24,7 @@ export const recommendedListData = [
         "name": "Limone Lounge",
         "discount": "FLAT ₹100 OFF",
         "discountAmount": "up to ₹70",
-        "time": "36 mins",
+        "time": "36 m",
         "rating": 3.2,
         "distance": "7.5 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/e0839ff574213e6f35b3899ebf1fc597"
@@ -35,7 +35,7 @@ export const recommendedListData = [
         "discount": "FLAT ₹50 OFF",
         "rating": 1.2,
         "discountAmount": "up to ₹70",
-        "time": "19 mins",
+        "time": "19 m",
         "distance": "1 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/yq7lqeehl9dsjjsogv5g"
     },
@@ -44,7 +44,7 @@ export const recommendedListData = [
         "name": "Belgian Waffle",
         "discount": "30% OFF",
         "discountAmount": "up to ₹75",
-        "time": "15 mins",
+        "time": "15 m",
         "distance": "1 km",
         "rating": 2.2,
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/5116a385bac0548e06c33c08350fbf11"
@@ -54,7 +54,7 @@ export const recommendedListData = [
         "name": "A One Bakery",
         "discount": "10% OFF",
         "discountAmount": "up to ₹25",
-        "time": "24 mins",
+        "time": "24 m",
         "rating": 4.2,
         "distance": "5 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/2c469b5d88f84b7495b9825d06e4bb9b"
@@ -64,7 +64,7 @@ export const recommendedListData = [
         "name": "Spice Symphony",
         "discount": "20% OFF",
         "discountAmount": "up to ₹50",
-        "time": "22 mins",
+        "time": "22 m",
         "rating": 4.2,
         "distance": "6.5 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/RX_THUMBNAIL/IMAGES/VENDOR/2024/10/22/e114a4a9-c14b-4666-8ad5-fbe4a6a44af8_532693.JPG"
@@ -74,7 +74,7 @@ export const recommendedListData = [
         "name": "Crispy Creations",
         "discount": "10% OFF",
         "discountAmount": "up to ₹30",
-        "time": "18 mins",
+        "time": "18 m",
         "distance": "4.2 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/RX_THUMBNAIL/IMAGES/VENDOR/2024/4/1/e6705d31-3941-4fb8-a198-fc6e24cdcc36_861682.JPG"
     },
@@ -83,7 +83,7 @@ export const recommendedListData = [
         "name": "Wow Momo",
         "discount": "15% OFF",
         "discountAmount": "up to ₹40",
-        "time": "28 mins",
+        "time": "28 m",
         "distance": "9 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/64fd45fd9f44c1737bc446e470bed666"
     },
@@ -92,7 +92,7 @@ export const recommendedListData = [
         "name": "Pasta Fresca",
         "discount": "25% OFF",
         "discountAmount": "up to ₹60",
-        "time": "35 mins",
+        "time": "35 m",
         "distance": "7.8 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/c583ca6ce40b426797a78ae2ac91f2ec"
     },
@@ -102,7 +102,7 @@ export const recommendedListData = [
         "rating": 4.9,
         "discount": "30% OFF",
         "discountAmount": "up to ₹70",
-        "time": "20 mins",
+        "time": "20 m",
         "distance": "3.5 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/df3122a3d49482073a839f47d0ae4281"
     },
@@ -112,7 +112,7 @@ export const recommendedListData = [
         "discount": "30% OFF",
         "discountAmount": "up to ₹70",
         "rating": 4.9,
-        "time": "40 mins",
+        "time": "40 m",
         "distance": "11 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/RX_THUMBNAIL/IMAGES/VENDOR/2024/7/28/1a55b465-5808-4201-a939-49540abae3d7_322633.JPG"
     },
