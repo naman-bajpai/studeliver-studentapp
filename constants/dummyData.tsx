@@ -75,6 +75,7 @@ export const recommendedListData = [
         "discount": "10% OFF",
         "discountAmount": "up to ₹30",
         "time": "18 m",
+        "rating": 4.2,
         "distance": "4.2 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/RX_THUMBNAIL/IMAGES/VENDOR/2024/4/1/e6705d31-3941-4fb8-a198-fc6e24cdcc36_861682.JPG"
     },
@@ -83,6 +84,7 @@ export const recommendedListData = [
         "name": "Wow Momo",
         "discount": "15% OFF",
         "discountAmount": "up to ₹40",
+        "rating": 4.2,
         "time": "28 m",
         "distance": "9 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/64fd45fd9f44c1737bc446e470bed666"
@@ -90,6 +92,7 @@ export const recommendedListData = [
     {
         "id": 10,
         "name": "Pasta Fresca",
+        "rating": 4.2,
         "discount": "25% OFF",
         "discountAmount": "up to ₹60",
         "time": "35 m",

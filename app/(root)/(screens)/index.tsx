@@ -25,6 +25,7 @@ import {
 } from 'react-native-feather';
 import images from '@/constants/exportsImages';
 import { recommendedListData } from '@/constants/dummyData';
+import TabsComponent from '@/components/ui/HomeTabs';
 
 export default function Index() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -105,8 +106,8 @@ export default function Index() {
             <Sliders color="#5e17eb" />
           </Pressable>
         </View>
-        {/* Different Food Options  */}
 
+        {/* Different Food Options  */}
         <View className="flex flex-row gap-4 w-full justify-between p-3">
           <Image
             source={images.breakfast}
@@ -130,8 +131,9 @@ export default function Index() {
           />
         </View>
       </View>
+
       {/* Favourite Section */}
-      <View className="bg-white w-full p-6">
+      <View className="bg-light w-full p-6">
         <View className="flex flex-row justify-between items-center mb-4">
           <Text className="font-okra-bold text-lg">Favourite</Text>
           <Text className="font-okra text-black-200">See all</Text>
@@ -146,7 +148,7 @@ export default function Index() {
           {recommendedListData.map((restaurant) => (
             <TouchableOpacity
               key={restaurant.id}
-              className="bg-white rounded-lg p-3 mr-4 min-w-56 shadow-black shadow-lg drop-shadow-lg"
+              className="bg-white border border-gray-200 rounded-lg p-3 mr-4 min-w-56 shadow-black shadow-lg drop-shadow-lg"
             >
               <View className="relative">
                 <Image
@@ -168,7 +170,7 @@ export default function Index() {
                 <View className="px-0.5 rounded-lg">
                   <Text>⭐{restaurant.rating}</Text>
                 </View>
-                <View className="flex flex-row gap-2">
+                <View className="flex flex-row gap-2 mt-2">
                   <View className="flex items-center">
                     <Text className="bg-pink-200 px-2 rounded-full w-fit font-okra text-sm text-danger">
                       {restaurant.distance}
@@ -184,10 +186,18 @@ export default function Index() {
               </View>
             </TouchableOpacity>
           ))}
+          
         </ScrollView>
 
-      </View>
 
+      </View>
+      
+
+      <View className='bg-white w-full p-6'>
+      <View className='flex h-full'>
+            <TabsComponent />
+          </View>
+      </View>
       {/* Dark Overlay */}
       {modalVisible && <View style={styles.overlay} />}
 
@@ -283,8 +293,8 @@ export default function Index() {
                       key={index}
                       onPress={() => setFilters((prev) => ({ ...prev, priceRange: price }))}
                       className={`px-3 py-2 rounded-lg border w-1/6  ${filters.priceRange === price
-                          ? 'bg-primary border-primary'
-                          : 'bg-gray-200 border-gray-300'
+                        ? 'bg-primary border-primary'
+                        : 'bg-gray-200 border-gray-300'
                         }`}
                     >
                       <Text
