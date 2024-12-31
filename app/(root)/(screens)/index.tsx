@@ -21,11 +21,13 @@ import {
   Search,
   Sliders,
   Clock,
-  X
+  X,
+  User
 } from 'react-native-feather';
 import images from '@/constants/exportsImages';
 import { recommendedListData } from '@/constants/dummyData';
 import TabsComponent from '@/components/ui/HomeTabs';
+import { router } from 'expo-router';
 
 export default function Index() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -67,6 +69,11 @@ export default function Index() {
     { id: 12, name: 'Nuts' },
   ];
 
+
+  const handleProfileClick = () => {
+    router.push('/profile')
+  }
+
   return (
     <SafeAreaView className="font-okra flex h-screen flex-col items-center">
       {/* Change StatusBar dynamically */}
@@ -85,8 +92,12 @@ export default function Index() {
               <ChevronDown width={18} height={20} color="#fef08a" />
             </View>
           </View>
-          <View>
+          <View className='flex gap-2 flex-row'>
             <Bell color="#fff" width={24} height={24} />
+            <TouchableOpacity onPress={handleProfileClick}>
+
+            <User color="#fff" width={24} height={24} />
+            </TouchableOpacity>
           </View>
         </View>
 
