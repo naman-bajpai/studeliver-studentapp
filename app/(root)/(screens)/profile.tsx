@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, SafeAreaView, Image, TouchableOpacity, Switch } from 'react-native';
 import { ArrowLeft, Bell, Truck, Gift, MapPin, DollarSign, User, ChevronRight, CreditCard, LogOut } from 'react-native-feather';
 import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
@@ -16,19 +16,19 @@ const Profile = () => {
   };
 
   return (
-
     <SafeAreaView className="h-full bg-gray-200">
-      {/* Header */}
-      <View className="flex flex-row justify-between p-2 py-4 bg-primary">
-        <TouchableOpacity onPress={() => router.back()}>
-          <ArrowLeft color="#fff" />
-        </TouchableOpacity>
-        <Text className="font-okra-bold text-lg text-white">Profile</Text>
-        <Bell color="#fff" />
-      </View>
+      {/* Header + Profile Area with Extended Purple Background */}
+      <View className="bg-[#5e17eb]">
+        {/* Header */}
+        <View className="flex flex-row justify-between p-2 py-4">
+          <TouchableOpacity onPress={() => router.back()}>
+            <ArrowLeft color="#fff" />
+          </TouchableOpacity>
+          <Text className="font-okra-bold text-lg text-white">Profile</Text>
+          <Bell color="#fff" />
+        </View>
 
-      {/* Profile Info */}
-      <View className="bg-primary flex flex-row w-full">
+        {/* Profile Info */}
         <View className="flex flex-row p-6 items-center gap-4">
           <Image
             source={images.Avatar}
@@ -45,66 +45,66 @@ const Profile = () => {
       </View>
 
       {/* Quick Actions */}
-      <View className="bg-primary p-6 pt-3">
+      <View className="bg-[#5e17eb] p-6 pt-3">
         <View className="bg-light rounded-2xl p-3 flex flex-row justify-between items-center px-10">
           <TouchableOpacity>
             <View className="flex flex-col justify-center items-center gap-1">
               <Truck color="#5e17eb" />
-              <Text className="text-wrap max-w-20 text-center">My All Orders</Text>
+              <Text className="text-wrap max-w-20 text-center text-[#5e17eb]">My All Orders</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
             <View className="flex flex-col justify-center items-center gap-1">
               <DollarSign color="#5e17eb" />
-              <Text className="text-wrap max-w-20 text-center">Meal Swipes</Text>
+              <Text className="text-wrap max-w-20 text-center text-[#5e17eb]">Meal Swipes</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
             <View className="flex flex-col justify-center items-center gap-1">
               <Gift color="#5e17eb" />
-              <Text className="text-wrap max-w-20 text-center">Offers & Promo</Text>
+              <Text className="text-wrap max-w-20 text-center text-[#5e17eb]">Offers & Promo</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
             <View className="flex flex-col justify-center items-center gap-1">
               <MapPin color="#5e17eb" />
-              <Text className="text-wrap max-w-20 text-center">Delivery Address</Text>
+              <Text className="text-wrap max-w-20 text-center text-[#5e17eb]">Delivery Address</Text>
             </View>
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Account and Notifications */}
-      <View className=" bg-gray-200 p-6">
-        <View className=" rounded-2xl bg-light shadow-md border border-gray-300 p-6">
+      <View className="bg-gray-200 p-6">
+        <View className="rounded-2xl bg-light shadow-md border border-gray-300 p-6">
           {/* Account Section */}
           <View className="flex flex-col my-2">
             <Text className="font-okra-bold text-black text-lg mb-2">My account</Text>
             <View className="flex flex-row gap-2 items-center w-full my-2">
-              <User color="#000" />
+              <User color="#5e17eb" />
               <Text className="font-okra text-black mr-auto text-base">Manage Profile</Text>
-              <ChevronRight color="#000" />
+              <ChevronRight color="#5e17eb" />
             </View>
             <View className="flex flex-row gap-2 items-center w-full my-2">
-              <CreditCard color="#000" />
+              <CreditCard color="#5e17eb" />
               <Text className="font-okra text-black mr-auto text-base">Payment Option</Text>
-              <ChevronRight color="#000" />
+              <ChevronRight color="#5e17eb" />
             </View>
           </View>
 
           {/* Notifications Section */}
           <View className="flex flex-col my-2">
             <Text className="font-okra-bold text-black text-lg mb-2">Notifications</Text>
-            <View className="flex flex-row gap-2 items-center w-full ">
-              <Bell color="#000" />
+            <View className="flex flex-row gap-2 items-center w-full">
+              <Bell color="#5e17eb" />
               <Text className="font-okra text-black mr-auto text-base">Enable Notifications</Text>
               <Switch
                 value={isNotificationsEnabled}
                 onValueChange={setIsNotificationsEnabled}
               />
             </View>
-            <View className="flex flex-row gap-2 items-center w-full ">
-              <CreditCard color="#000" />
+            <View className="flex flex-row gap-2 items-center w-full">
+              <Gift color="#5e17eb" />
               <Text className="font-okra text-black mr-auto text-base">Promotional Notifications</Text>
               <Switch
                 value={isPromoNotificationsEnabled}
@@ -119,14 +119,9 @@ const Profile = () => {
               <LogOut color="#F75555" />
               <Text className="font-okra-bold text-danger text-base">Sign Out</Text>
             </TouchableOpacity>
-            {/* Add other actions here */}
           </View>
-
         </View>
       </View>
-
-      {/* Sign Out Section */}
-
     </SafeAreaView>
   );
 };

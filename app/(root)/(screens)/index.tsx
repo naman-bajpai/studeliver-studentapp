@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import {
   View,
@@ -31,6 +29,14 @@ import { router } from 'expo-router';
 
 export default function Index() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [deliveryMethod, setDeliveryMethod] = useState('delivery');
+  const [searchText, setSearchText] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState('Home');
+  const [pickupAddress, setPickupAddress] = useState('');
+  const [currentLocation, setCurrentLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
 
   const [filters, setFilters] = useState({
     category: 'Food',
@@ -74,8 +80,49 @@ export default function Index() {
     router.push('/profile')
   }
 
+  const handleDeliveryMethodChange = (method: 'delivery' | 'pickup') => {
+    // Update delivery method state
+    setDeliveryMethod(method);
+
+    // Clear search text when switching modes
+    setSearchText('');
+
+    // Reset filters when switching modes
+    setFilters({
+      category: 'Food',
+      foodGroup: 'Cereals',
+      rating: '',
+      priceRange: '',
+    });
+
+    // Update UI elements based on delivery method
+    if (method === 'pickup') {
+      // If switching to pickup mode
+      // You might want to trigger location services here to find nearby pickup locations
+      // For example:
+      // getCurrentLocation().then(location => {
+      //   setCurrentLocation(location);
+      //   findNearbyPickupLocations(location);
+      // });
+
+      // Update the address display
+      setPickupAddress('Select pickup location');
+
+      // You might want to update the recommended list to show only pickup-enabled restaurants
+      // updateRecommendedList('pickup');
+
+    } else {
+      // If switching to delivery mode
+      // Restore delivery address
+      setPickupAddress('');
+
+      // You might want to update the recommended list to show delivery-enabled restaurants
+      // updateRecommendedList('delivery');
+    }
+  };
+
   return (
-    <SafeAreaView className="font-okra flex h-screen flex-col items-center">
+    <SafeAreaView className="font-okra flex h-screen flex-col items-center" style={{ flex: 1, backgroundColor: '#5e17eb' }}>
       {/* Change StatusBar dynamically */}
       <StatusBar barStyle={modalVisible ? 'dark-content' : 'light-content'} backgroundColor={modalVisible ? '#38008d' : '#5e17eb'} />
       <StatusBar barStyle={modalVisible ? 'dark-content' : 'light-content'} backgroundColor={modalVisible ? '#38008d' : '#5e17eb'} />
@@ -96,16 +143,45 @@ export default function Index() {
             <Bell color="#fff" width={24} height={24} />
             <TouchableOpacity onPress={handleProfileClick}>
 
-            <User color="#fff" width={24} height={24} />
+              <User color="#fff" width={24} height={24} />
             </TouchableOpacity>
           </View>
+        </View>
+
+
+        {/* Implement the pickup address selection here */}
+        <View className="flex flex-row justify-center bg-white/20 rounded-full p-1">
+          <TouchableOpacity
+            onPress={() => handleDeliveryMethodChange('delivery')}
+            className={`flex-1 py-2 px-4 rounded-full ${deliveryMethod === 'delivery' ? 'bg-white' : 'bg-transparent'
+              }`}
+          >
+            <Text
+              className={`text-center font-okra-medium ${deliveryMethod === 'delivery' ? 'text-primary' : 'text-white'
+                }`}
+            >
+              Delivery
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleDeliveryMethodChange('pickup')}
+            className={`flex-1 py-2 px-4 rounded-full ${deliveryMethod === 'pickup' ? 'bg-white' : 'bg-transparent'
+              }`}
+          >
+            <Text
+              className={`text-center font-okra-medium ${deliveryMethod === 'pickup' ? 'text-primary' : 'text-white'
+                }`}
+            >
+              Pickup
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Search Bar */}
         <View className="relative">
           <TextInput
             className="w-full flex justify-center bg-white items-center h-12 rounded-md px-12"
-            placeholder="Search for a restaurant"
+            placeholder={`Search for a ${deliveryMethod === 'delivery' ? 'restaurant' : 'store'}`}
           />
           <View className="absolute top-1/2 -translate-y-[50%] left-2">
             <Search color="#5e17eb" />
@@ -143,7 +219,6 @@ export default function Index() {
         </View>
       </View>
 
-      {/* Favourite Section */}
       <View className="bg-light w-full p-6">
         <View className="flex flex-row justify-between items-center mb-4">
           <Text className="font-okra-bold text-lg">Favourite</Text>
@@ -154,12 +229,15 @@ export default function Index() {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className="flex-row py-1"
+          contentContainerStyle={{
+            flexDirection: 'row',
+            paddingHorizontal: 0,  // Remove any horizontal padding
+          }}
         >
           {recommendedListData.map((restaurant) => (
             <TouchableOpacity
               key={restaurant.id}
-              className="bg-white border border-gray-200 rounded-lg p-3 mr-4 min-w-56 shadow-black shadow-lg drop-shadow-lg"
+              className="bg-white rounded-lg p-3 mr-4 min-w-56"
             >
               <View className="relative">
                 <Image
@@ -177,7 +255,13 @@ export default function Index() {
               <Text className="font-okra-bold text-base text-gray-800 truncate">
                 {restaurant.name}
               </Text>
-              <View className="flex flex-row justify-between items-center">
+
+              {/* New details */}
+              <Text className="font-okra text-sm text-gray-600 mt-1">
+                {restaurant.distance} - ${restaurant.deliveryFee} Delivery fee - {restaurant.time}
+              </Text>
+
+              <View className="flex flex-row justify-between items-center mt-2">
                 <View className="px-0.5 rounded-lg">
                   <Text>⭐{restaurant.rating}</Text>
                 </View>
@@ -197,17 +281,13 @@ export default function Index() {
               </View>
             </TouchableOpacity>
           ))}
-          
         </ScrollView>
-
-
       </View>
-      
 
       <View className='bg-white w-full p-6'>
-      <View className='flex h-full'>
-            <TabsComponent />
-          </View>
+        <View className='flex h-full'>
+          <TabsComponent />
+        </View>
       </View>
       {/* Dark Overlay */}
       {modalVisible && <View style={styles.overlay} />}
@@ -329,6 +409,7 @@ export default function Index() {
           </View>
         </View>
       </Modal>
+      <BottomNav />
     </SafeAreaView>
   );
 }

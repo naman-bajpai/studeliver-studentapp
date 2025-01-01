@@ -15,15 +15,14 @@ const SignIn = () => {
         contentContainerClassName="h-full flex flex-col justify-center items-center relative"
         showsVerticalScrollIndicator={false}
       >
-        {/* Back Button Section */}
         <Pressable
           onPress={() => router.back()} // Navigate to the previous screen
-          className="absolute top-10 left-5 z-20"
+          className="absolute top-10 left-10 z-20" // Aligning top and left positions with Login screen
         >
           <Image
             source={images.backArrow} // Replace with your back arrow logo
             alt="back-arrow"
-            style={{ height: 30, width: 30, resizeMode: "contain" }}
+            style={{ height: 30, width: 30, resizeMode: 'contain' }}
           />
         </Pressable>
 

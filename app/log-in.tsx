@@ -66,8 +66,8 @@ const Login: React.FC = () => {
           onPress={() => router.back()}
           style={{
             position: 'absolute',
-            top: 10,
-            left: 10,
+            top: 10, // Keeping this consistent
+            left: 10, // Ensure same left position
             zIndex: 20, // Ensure it's above other components
           }}
         >
