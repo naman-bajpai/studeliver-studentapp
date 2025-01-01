@@ -409,7 +409,6 @@ export default function Index() {
           </View>
         </View>
       </Modal>
-      <BottomNav />
     </SafeAreaView>
   );
 }
