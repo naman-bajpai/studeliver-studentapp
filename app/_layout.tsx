@@ -5,6 +5,7 @@ import '../global.css';
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({
@@ -33,5 +34,9 @@ export default function Layout() {
 
   console.log('Rendering layout');
 
-  return <Stack screenOptions={{headerShown: false}}/>;
+  return (
+    <GestureHandlerRootView className='flex-1'>
+      <Stack screenOptions={{ headerShown: false }} />
+    </GestureHandlerRootView>
+  );
 }
