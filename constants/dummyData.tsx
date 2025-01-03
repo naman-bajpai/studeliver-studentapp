@@ -4,18 +4,18 @@ export const recommendedListData = [
         "name": "Chick-Fil-A",
         "discount": "40% OFF",
         "discountAmount": "up to 10%",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "10 minutes",
         "distance": "0.5 miles",
         "rating": 4.2,
-        "imageUrl":"https://download.logo.wine/logo/Chick-fil-A/Chick-fil-A-Logo.wine.png"
+        "imageUrl": "https://download.logo.wine/logo/Chick-fil-A/Chick-fil-A-Logo.wine.png"
     },
     {
         "id": 2,
         "name": "Burger King",
         "discount": "10% OFF",
         "discountAmount": "up to $1",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "33 m",
         "rating": 4.5,
         "distance": "8.5 km",
@@ -26,7 +26,7 @@ export const recommendedListData = [
         "name": "Limone Lounge",
         "discount": "FLAT ₹100 OFF",
         "discountAmount": "up to ₹70",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "36 m",
         "rating": 3.2,
         "distance": "7.5 km",
@@ -38,7 +38,7 @@ export const recommendedListData = [
         "discount": "FLAT ₹50 OFF",
         "rating": 1.2,
         "discountAmount": "up to ₹70",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "19 m",
         "distance": "1 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/yq7lqeehl9dsjjsogv5g"
@@ -48,7 +48,7 @@ export const recommendedListData = [
         "name": "Belgian Waffle",
         "discount": "30% OFF",
         "discountAmount": "up to ₹75",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "15 m",
         "distance": "1 km",
         "rating": 2.2,
@@ -59,7 +59,7 @@ export const recommendedListData = [
         "name": "A One Bakery",
         "discount": "10% OFF",
         "discountAmount": "up to ₹25",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "24 m",
         "rating": 4.2,
         "distance": "5 km",
@@ -70,7 +70,7 @@ export const recommendedListData = [
         "name": "Spice Symphony",
         "discount": "20% OFF",
         "discountAmount": "up to ₹50",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "22 m",
         "rating": 4.2,
         "distance": "6.5 km",
@@ -81,7 +81,7 @@ export const recommendedListData = [
         "name": "Crispy Creations",
         "discount": "10% OFF",
         "discountAmount": "up to ₹30",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "18 m",
         "rating": 4.2,
         "distance": "4.2 km",
@@ -92,7 +92,7 @@ export const recommendedListData = [
         "name": "Wow Momo",
         "discount": "15% OFF",
         "discountAmount": "up to ₹40",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "rating": 4.2,
         "time": "28 m",
         "distance": "9 km",
@@ -104,7 +104,7 @@ export const recommendedListData = [
         "rating": 4.2,
         "discount": "25% OFF",
         "discountAmount": "up to ₹60",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "35 m",
         "distance": "7.8 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/c583ca6ce40b426797a78ae2ac91f2ec"
@@ -115,7 +115,7 @@ export const recommendedListData = [
         "rating": 4.9,
         "discount": "30% OFF",
         "discountAmount": "up to ₹70",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "time": "20 m",
         "distance": "3.5 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/df3122a3d49482073a839f47d0ae4281"
@@ -125,7 +125,7 @@ export const recommendedListData = [
         "name": "Sushi Delight",
         "discount": "30% OFF",
         "discountAmount": "up to ₹70",
-        "deliveryFee" : "1.99",
+        "deliveryFee": "1.99",
         "rating": 4.9,
         "time": "40 m",
         "distance": "11 km",
@@ -394,19 +394,51 @@ export const restaurantItemsData = [
 ];
 
 
-export const filtersOption = [
-    'Nearest',
-    'Great Offers',
-    'Rating 4.0',
-    'Gourmet',
-    'Pure Veg'
-]
+export const categories = ['Food', 'Drinks', 'Desserts'];
 
-export const restaurantsItemfiltersOption = [
-    'Veg',
-    'Non-veg',
-    'Rating 4.0',
-    'Bestseller',
-    'Spicy',
-    'Sweets'
-]
+export const navTabs = [
+    { label: 'Sort' },
+    { label: 'Open Now' },
+    { label: '4 Stars and Up' },
+    { label: '30% off' },
+    { label: 'Price Low to High' },
+    { label: 'Price High to Low' },
+    { label: 'Best Rated' },
+    { label: 'Newest' },
+    { label: 'Most Popular' },
+    { label: 'Free Delivery' },
+    { label: 'Deals' },
+    { label: 'Location' },
+    { label: 'Availability' },
+    { label: 'Trending' },
+    { label: 'Family Friendly' },
+    { label: 'Pet Friendly' },
+    { label: 'Indoor' },
+    { label: 'Outdoor' },
+    { label: 'Nearby' },
+    { label: 'All Categories' },
+    { label: 'Nearest', },
+    { label: 'Great Offers', },
+    { label: 'Rating 4.0', },
+    { label: 'Gourmet', },
+    { label: 'Pure Veg' },
+];
+
+
+export const foodGroups = [
+    { id: 1, name: 'Grains & Cereals' },
+    { id: 2, name: 'Vegetables' },
+    { id: 3, name: 'Fruits' },
+    { id: 4, name: 'Dairy' },
+    { id: 5, name: 'Protein Foods' },
+    { id: 6, name: 'Fats & Oils' },
+    { id: 7, name: 'Sweets & Snacks' },
+    { id: 8, name: 'Beverages' },
+    { id: 9, name: 'Seafood' },
+    { id: 10, name: 'Veg' },
+    { id: 11, name: 'Rating 4.0' },
+    { id: 12, name: 'Non-veg' },
+    { id: 13, name: 'Bestseller' },
+    { id: 14, name: 'Spicy' },
+
+];

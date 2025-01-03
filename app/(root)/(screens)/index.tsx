@@ -32,51 +32,24 @@ import images from '@/constants/exportsImages';
 import { recommendedListData } from '@/constants/dummyData';
 import TabsComponent from '@/components/ui/HomeTabs';
 import { router } from 'expo-router';
+import { navTabs, foodGroups, categories } from '@/constants/dummyData';
+
+interface NavFilters {
+  label: string;
+}
 
 export default function Index() {
-  const [modalVisible, setModalVisible] = useState(true);
+  // Varaiables
+  const [modalVisible, setModalVisible] = useState(false);
   const [deliveryMethod, setDeliveryMethod] = useState('delivery');
   const [searchText, setSearchText] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('Home');
   const [pickupAddress, setPickupAddress] = useState('');
   const [pan, setPan] = useState(new Animated.Value(-10)); // Track the vertical position
   const [activeNavTab, setActiveNavtab] = useState("")
-  const foodGroups = [
-    { id: 1, name: 'Grains & Cereals' },
-    { id: 2, name: 'Vegetables' },
-    { id: 3, name: 'Fruits' },
-    { id: 4, name: 'Dairy' },
-    { id: 5, name: 'Protein Foods' },
-    { id: 6, name: 'Fats & Oils' },
-    { id: 7, name: 'Sweets & Snacks' },
-    { id: 8, name: 'Beverages' },
-    { id: 9, name: 'Seafood' },
-    { id: 10, name: 'Legumes & Nuts' },
-  ];
-  const navTabs = [
-    { label: 'Sort' },
-    { label: 'Open Now' },
-    { label: '4 Stars and Up' },
-    { label: '30% off' },
-    { label: 'Price Low to High' },
-    { label: 'Price High to Low' },
-    { label: 'Best Rated' },
-    { label: 'Newest' },
-    { label: 'Most Popular' },
-    { label: 'Free Delivery' },
-    { label: 'Deals' },
-    { label: 'Location' },
-    { label: 'Availability' },
-    { label: 'Trending' },
-    { label: 'Family Friendly' },
-    { label: 'Pet Friendly' },
-    { label: 'Indoor' },
-    { label: 'Outdoor' },
-    { label: 'Nearby' },
-    { label: 'All Categories' },
-  ];
-
-  const categories = ['Food', 'Drinks', 'Desserts'];
+  const closeThreshold = 100; // Set a threshold for dragging down to close the modal
+  const [activeNavFilter, setActiveNavFilter] = useState<NavFilters[]>([]);
+  const [navFilters, setNavFilters] = useState<NavFilters[]>(navTabs);
   const [filters, setFilters] = useState({
     category: 'Food',
     foodGroup: 'Cereals',
@@ -84,6 +57,21 @@ export default function Index() {
     priceRange: '',
   });
 
+  const handleNavFilterClick = (tab: NavFilters) => {
+    if (activeNavFilter.some((activeTab) => activeTab.label === tab.label)) {
+      // If the tab is already active, remove it from activeNavFilter and add it back to navFilters
+      setActiveNavFilter((prev) =>
+        prev.filter((activeTab) => activeTab.label !== tab.label)
+      );
+      setNavFilters((prev) => [...prev, tab]);
+    } else {
+      // If the tab is not active, add it to activeNavFilter and remove it from navFilters
+      setActiveNavFilter((prev) => [...prev, tab]);
+      setNavFilters((prev) =>
+        prev.filter((filterTab) => filterTab.label !== tab.label)
+      );
+    }
+  };
 
   const handleCategorySelect = (category: string) => {
     setFilters((prev) => ({
@@ -91,14 +79,15 @@ export default function Index() {
       category,
     }));
   };
+
   const handleFoodGroupSelect = (foodGroup: string) => {
     setFilters((prev) => ({
       ...prev,
       foodGroup,
     }));
-  }
+  };
+
   // Gesture handling to detect dragging
-  const closeThreshold = 100; // Set a threshold for dragging down to close the modal
 
   // Create PanResponder
   const panResponder = PanResponder.create({
@@ -143,6 +132,7 @@ export default function Index() {
       useNativeDriver: true,
     }).start();
   };
+
   const handleProfileClick = () => {
     router.push('/profile');
   };
@@ -159,12 +149,12 @@ export default function Index() {
   };
 
   return (
-    <SafeAreaView className="font-okra flex h-screen flex-col items-center" style={{ flex: 1, backgroundColor: '#5e17eb' }}>
+    <SafeAreaView className="font-okra flex h-screen flex-col items-center" style={{ flex: 1, backgroundColor: '#fff' }}>
       <StatusBar barStyle={modalVisible ? 'dark-content' : 'light-content'} backgroundColor={modalVisible ? '#38008d' : '#5e17eb'} />
 
-      <View className="bg-primary p-6 flex-col flex gap-3 w-full rounded-b-3xl">
+      <View className="bg-primary p-6 flex-col flex gap-3 w-full rounded-b-3xl ">
         {/* Address settings and notification */}
-        <View className="flex justify-between items-center h-fit flex-row bg-primary w-full">
+        <View className="flex justify-between items-center h-fit flex-row bg-primary  w-full">
           <View className="flex-row flex gap-2 items-center justify-start">
             <MapPin color="#fff" />
             <Text className="font-okra-medium text-white">Deliver to</Text>
@@ -222,41 +212,48 @@ export default function Index() {
         </View>
         {/* Implement the pickup address selection here */}
 
-
-        {/* Different Food Options */}
-        {/* <View className="flex flex-row gap-4 w-full justify-between p-3">
-          <Image source={images.breakfast} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-          <Image source={images.burger} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-          <Image source={images.pizza} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-          <Image source={images.coffee} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-          <Image source={images.drink} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-        </View> */}
-        <View className='flex w-full'>
+        <View className='flex w-full '>
 
           <ScrollView horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
               flexDirection: 'row',
               alignItems: 'center',
- 
+
             }}>
-            {
-              navTabs.map((tab, index) => (
-                <Pressable
-                  key={index}
-                  onPress={() => setActiveNavtab(tab.label)}
-                  className={`py-2 mr-2 px-4 rounded-full border border-white ${activeNavTab === tab.label ? 'bg-white' : 'bg-primary'
+            {/* Active Filters */}
+            {activeNavFilter.map((tab, index) => (
+              <Pressable
+                key={index}
+                onPress={() => handleNavFilterClick(tab)}
+                className={`py-2 mr-2 px-4 rounded-full border border-white ${activeNavFilter.some((activeTab) => activeTab.label === tab.label) ? 'bg-white' : 'bg-primary'
+                  }`}
+              >
+                <Text
+                  className={`text-center font-okra-medium ${activeNavFilter.some((activeTab) => activeTab.label === tab.label) ? 'text-primary' : 'text-white'
                     }`}
                 >
-                  <Text
-                    className={`text-center font-okra-medium ${activeNavTab === tab.label ? 'text-primary' : 'text-white'
-                      }`}
-                  >
-                    {tab.label}
-                  </Text>
-                </Pressable>
-              ))
-            }
+                  {tab.label}
+                </Text>
+              </Pressable>
+            ))}
+
+            {/* Available Filters */}
+            {navFilters.map((tab, index) => (
+              <Pressable
+                key={index}
+                onPress={() => handleNavFilterClick(tab)}
+                className={`py-2 mr-2 px-4 rounded-full border border-white ${activeNavFilter.some((activeTab) => activeTab.label === tab.label) ? 'bg-white' : 'bg-primary'
+                  }`}
+              >
+                <Text
+                  className={`text-center font-okra-medium ${activeNavFilter.some((activeTab) => activeTab.label === tab.label) ? 'text-primary' : 'text-white'
+                    }`}
+                >
+                  {tab.label}
+                </Text>
+              </Pressable>
+            ))}
           </ScrollView>
         </View>
       </View>
