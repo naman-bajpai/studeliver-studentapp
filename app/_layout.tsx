@@ -4,8 +4,9 @@ import { Stack } from 'expo-router';
 import '../global.css';
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import SplashScreenAnimation from '@/components/ui/SplashScreen';
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({
@@ -15,8 +16,12 @@ export default function Layout() {
     'Okra-Medium': require("../assets/fonts/Okra-Medium.ttf"),
     'Okra-ExtraBold': require("../assets/fonts/Okra-ExtraBold.ttf"),
   });
-
+  const [isLoaded, setisLoaded] = useState(false);
+  SplashScreen.preventAutoHideAsync();
   useEffect(() => {
+    setTimeout(() => {
+      setisLoaded(true);
+    }, 1600);
     if (fontsLoaded) {
       console.log('Fonts loaded successfully');
       SplashScreen.hideAsync();
@@ -31,12 +36,16 @@ export default function Layout() {
     console.log('Returning null because fonts are not loaded yet');
     return null;
   }
-
+  
   console.log('Rendering layout');
 
   return (
     <GestureHandlerRootView className='flex-1'>
-      <Stack screenOptions={{ headerShown: false }} />
+      {
+        !isLoaded? (<SplashScreenAnimation/>): <Stack screenOptions={{ headerShown: false }} />
+        
+      }
+      
     </GestureHandlerRootView>
   );
 }
