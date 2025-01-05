@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import images from '@/constants/exportsImages';
 import { router } from 'expo-router';
+import BackArrow from '@/components/backArrow';
+
 
 const Login: React.FC = () => {
   const [showOtpInput, setShowOtpInput] = useState<boolean>(false);
@@ -62,25 +64,7 @@ const Login: React.FC = () => {
       <StatusBar style="light" backgroundColor="white" />
 
       <ScrollView contentContainerClassName="h-full flex flex-col justify-center items-center relative">
-        <Pressable
-          onPress={() => router.back()}
-          style={{
-            position: 'absolute',
-            top: 10, // Keeping this consistent
-            left: 10, // Ensure same left position
-            zIndex: 20, // Ensure it's above other components
-          }}
-        >
-          <Image
-            source={images.backArrow}
-            style={{
-              height: 30,
-              width: 30,
-              resizeMode: 'contain',
-              backgroundColor: 'transparent', // Debug: Temporarily set a background color
-            }}
-          />
-        </Pressable>
+        <BackArrow/>
 
         <View className="absolute flex flex-col w-full top-0 bg-white h-full">
           <Image

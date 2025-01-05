@@ -5,26 +5,16 @@ import { ScrollView } from 'react-native';
 import images from '@/constants/exportsImages.ts';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
+import BackArrow from '@/components/backArrow';
 
 const SignIn = () => {
   return (
     <SafeAreaView className="bg-white h-full font-okra">
       <StatusBar style="dark" backgroundColor="white" />
 
-      <ScrollView
-        contentContainerClassName="h-full flex flex-col justify-center items-center relative"
-        showsVerticalScrollIndicator={false}
-      >
-        <Pressable
-          onPress={() => router.back()} // Navigate to the previous screen
-          className="absolute top-10 left-10 z-20" // Aligning top and left positions with Login screen
-        >
-          <Image
-            source={images.backArrow} // Replace with your back arrow logo
-            alt="back-arrow"
-            style={{ height: 30, width: 30, resizeMode: 'contain' }}
-          />
-        </Pressable>
+      <ScrollView contentContainerClassName="h-full flex flex-col justify-center items-center relative"
+        showsVerticalScrollIndicator={false}>
+            <BackArrow />
 
         {/* Logo Section */}
         <View className="absolute flex flex-col w-full top-0 bg-transparent h-full">

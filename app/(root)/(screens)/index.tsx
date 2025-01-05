@@ -1,453 +1,275 @@
-
-
-
-
-import React, { useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  StatusBar,
-  TextInput,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  Modal,
-  Pressable,
-  StyleSheet,
-  PanResponder,
-  Animated,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  MapPin,
-  Bell,
-  ChevronDown,
-  Search,
-  Sliders,
-  Clock,
-  X,
-  User,
-} from 'react-native-feather';
-import images from '@/constants/exportsImages';
-import { recommendedListData } from '@/constants/dummyData';
-import TabsComponent from '@/components/ui/HomeTabs';
 import { router } from 'expo-router';
-import { navTabs, foodGroups, categories } from '@/constants/dummyData';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  View, 
+  Text, 
+  TouchableOpacity, 
+  StyleSheet, 
+  SafeAreaView, 
+  StatusBar, 
+  FlatList, 
+  Dimensions,
+  Animated,
+  Platform
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-interface NavFilters {
-  label: string;
+const { width } = Dimensions.get('window');
+
+interface Card {
+  id: string;
+  text: string;
+  description: string;
+  icon: keyof typeof Ionicons.glyphMap;
 }
 
 export default function Index() {
-  // Varaiables
-  const [modalVisible, setModalVisible] = useState(false);
-  const [deliveryMethod, setDeliveryMethod] = useState('delivery');
-  const [searchText, setSearchText] = useState('');
-  const [deliveryAddress, setDeliveryAddress] = useState('Home');
-  const [pickupAddress, setPickupAddress] = useState('');
-  const [pan, setPan] = useState(new Animated.Value(-10)); // Track the vertical position
-  const [activeNavTab, setActiveNavtab] = useState("")
-  const closeThreshold = 100; // Set a threshold for dragging down to close the modal
-  const [activeNavFilter, setActiveNavFilter] = useState<NavFilters[]>([]);
-  const [navFilters, setNavFilters] = useState<NavFilters[]>(navTabs);
-  const [filters, setFilters] = useState({
-    category: 'Food',
-    foodGroup: 'Cereals',
-    rating: '',
-    priceRange: '',
-  });
+  const [activeIndex, setActiveIndex] = useState(0);
+  const flatListRef = useRef<FlatList>(null);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(50)).current;
 
-  const handleNavFilterClick = (tab: NavFilters) => {
-    if (activeNavFilter.some((activeTab) => activeTab.label === tab.label)) {
-      // If the tab is already active, remove it from activeNavFilter and add it back to navFilters
-      setActiveNavFilter((prev) =>
-        prev.filter((activeTab) => activeTab.label !== tab.label)
-      );
-      setNavFilters((prev) => [...prev, tab]);
-    } else {
-      // If the tab is not active, add it to activeNavFilter and remove it from navFilters
-      setActiveNavFilter((prev) => [...prev, tab]);
-      setNavFilters((prev) =>
-        prev.filter((filterTab) => filterTab.label !== tab.label)
-      );
-    }
-  };
-
-  const handleCategorySelect = (category: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      category,
-    }));
-  };
-
-  const handleFoodGroupSelect = (foodGroup: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      foodGroup,
-    }));
-  };
-
-  // Gesture handling to detect dragging
-
-  // Create PanResponder
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: () => true,
-    onPanResponderMove: (_, gestureState) => {
-      // Restrict vertical movement (only allow dragging downwards)
-      if (gestureState.dy > 0) {
-        pan.setValue(gestureState.dy); // Track the downward movement
-      } else {
-        pan.setValue(0); // Prevent upward movement
-      }
-
-      // Close the modal instantly if it crosses the threshold
-      if (gestureState.dy > closeThreshold) {
-        setModalVisible(false); // Close the modal immediately
-      }
+  const cards: Card[] = [
+    { 
+      id: '1', 
+      text: 'Fast Delivery', 
+      description: 'Get your favorite meals delivered right to your doorstep in minutes!',
+      icon: 'bicycle-outline'
     },
-    onPanResponderRelease: (_, gestureState) => {
-      // Return the modal to the original position without any delay
-      if (gestureState.dy <= closeThreshold) {
-        Animated.spring(pan, {
-          toValue: 0,
-          useNativeDriver: true,
-        }).start();
-      }
+    { 
+      id: '2', 
+      text: 'Student Discounts', 
+      description: 'Exclusive deals and discounts for university students. Save more on every order!',
+      icon: 'school-outline'
     },
-  });
+    { 
+      id: '3', 
+      text: 'Variety of Options', 
+      description: 'Explore a diverse range of cuisines from top-rated on-campus dining options.',
+      icon: 'restaurant-outline'
+    },
+  ];
 
-  const showModal = () => {
-    setModalVisible(true);
-    Animated.spring(pan, {
-      toValue: 0, // Move to the screen position
-      useNativeDriver: true,
-    }).start();
+  useEffect(() => {
+    // Initial animation
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    // Auto-scroll timer
+    const interval = setInterval(() => {
+      const nextIndex = (activeIndex + 1) % cards.length;
+      flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+      setActiveIndex(nextIndex);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [activeIndex]);
+
+  const handleSignIn = () => {
+    router.replace('/log-in');
   };
 
-  const handleModalClose = () => {
-    setModalVisible(false);
-    Animated.spring(pan, {
-      toValue: 0, // Move below the screen
-      useNativeDriver: true,
-    }).start();
+  const handleSignUp = () => {
+    router.replace('/sign-in');
   };
 
-  const handleProfileClick = () => {
-    router.push('/profile');
-  };
-
-  const handleDeliveryMethodChange = (method: 'delivery' | 'pickup') => {
-    setDeliveryMethod(method);
-    setSearchText('');
-    setFilters({
-      category: 'Food',
-      foodGroup: 'Cereals',
-      rating: '',
-      priceRange: '',
-    });
+  const renderDots = () => {
+    return (
+      <View style={styles.pagination}>
+        {cards.map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.dot,
+              { backgroundColor: index === activeIndex ? '#5e17eb' : '#d4d4d4' }
+            ]}
+          />
+        ))}
+      </View>
+    );
   };
 
   return (
-    <SafeAreaView className="font-okra flex h-screen flex-col items-center" style={{ flex: 1, backgroundColor: '#fff' }}>
-      <StatusBar barStyle={modalVisible ? 'dark-content' : 'light-content'} backgroundColor={modalVisible ? '#38008d' : '#5e17eb'} />
-
-      <View className="bg-primary p-6 flex-col flex gap-3 w-full rounded-b-3xl ">
-        {/* Address settings and notification */}
-        <View className="flex justify-between items-center h-fit flex-row bg-primary  w-full">
-          <View className="flex-row flex gap-2 items-center justify-start">
-            <MapPin color="#fff" />
-            <Text className="font-okra-medium text-white">Deliver to</Text>
-            <View className="flex flex-row">
-              <Text className="font-okra-bold underline text-yellow-200">Home</Text>
-              <ChevronDown width={18} height={20} color="#fef08a" />
-            </View>
-          </View>
-          <View className="flex flex-row justify-center bg-white/20 rounded-full p-0.5">
-            <TouchableOpacity
-              onPress={() => handleDeliveryMethodChange('delivery')}
-              className={` py-1 px-4 rounded-full ${deliveryMethod === 'delivery' ? 'bg-white' : 'bg-transparent'
-                }`}
-            >
-              <Text
-                className={`text-center font-okra-medium ${deliveryMethod === 'delivery' ? 'text-primary' : 'text-white'
-                  }`}
-              >
-                Delivery
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleDeliveryMethodChange('pickup')}
-              className={` py-1 px-4 rounded-full ${deliveryMethod === 'pickup' ? 'bg-white' : 'bg-transparent'
-                }`}
-            >
-              <Text
-                className={`text-center font-okra-medium ${deliveryMethod === 'pickup' ? 'text-primary' : 'text-white'
-                  }`}
-              >
-                Pickup
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View className="flex gap-2 flex-row">
-            <Bell color="#fff" width={24} height={24} />
-            <TouchableOpacity onPress={handleProfileClick}>
-              <User color="#fff" width={24} height={24} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Search Bar */}
-        <View className="relative">
-          <TextInput className="w-full flex justify-center bg-white items-center h-12 rounded-md px-12" placeholder={`Search for a ${deliveryMethod === 'delivery' ? 'restaurant' : 'store'}`} />
-          <View className="absolute top-1/2 -translate-y-[50%] left-2">
-            <Search color="#5e17eb" />
-          </View>
-          <Pressable
-            className="absolute top-1/2 -translate-y-[50%] right-2"
-            onPress={showModal} // Use showModal to open with animation
-          >
-            <Sliders color="#5e17eb" />
-          </Pressable>
-        </View>
-        {/* Implement the pickup address selection here */}
-
-        <View className='flex w-full '>
-
-          <ScrollView horizontal
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      
+      <Animated.View 
+        style={[
+          styles.content,
+          {
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }]
+          }
+        ]}
+      >
+        <View style={styles.cardsContainer}>
+          <FlatList
+            ref={flatListRef}
+            data={cards}
+            horizontal
+            pagingEnabled
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              flexDirection: 'row',
-              alignItems: 'center',
-
-            }}>
-            {/* Active Filters */}
-            {activeNavFilter.map((tab, index) => (
-              <Pressable
-                key={index}
-                onPress={() => handleNavFilterClick(tab)}
-                className={`py-2 mr-2 px-4 rounded-full border border-white ${activeNavFilter.some((activeTab) => activeTab.label === tab.label) ? 'bg-white' : 'bg-primary'
-                  }`}
-              >
-                <Text
-                  className={`text-center font-okra-medium ${activeNavFilter.some((activeTab) => activeTab.label === tab.label) ? 'text-primary' : 'text-white'
-                    }`}
-                >
-                  {tab.label}
-                </Text>
-              </Pressable>
-            ))}
-
-            {/* Available Filters */}
-            {navFilters.map((tab, index) => (
-              <Pressable
-                key={index}
-                onPress={() => handleNavFilterClick(tab)}
-                className={`py-2 mr-2 px-4 rounded-full border border-white ${activeNavFilter.some((activeTab) => activeTab.label === tab.label) ? 'bg-white' : 'bg-primary'
-                  }`}
-              >
-                <Text
-                  className={`text-center font-okra-medium ${activeNavFilter.some((activeTab) => activeTab.label === tab.label) ? 'text-primary' : 'text-white'
-                    }`}
-                >
-                  {tab.label}
-                </Text>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </View>
-      </View>
-
-      <View className="bg-light w-full p-6">
-        <View className="flex flex-row justify-between items-center mb-4">
-          <Text className="font-okra-bold text-lg">Favourite</Text>
-          <Text className="font-okra text-black-200">See all</Text>
+            keyExtractor={(item) => item.id}
+            onMomentumScrollEnd={(event) => {
+              const newIndex = Math.round(
+                event.nativeEvent.contentOffset.x / (width * 0.8 + width * 0.2)
+              );
+              setActiveIndex(newIndex);
+            }}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <View style={styles.iconContainer}>
+                  <Ionicons name={item.icon} size={40} color="#5e17eb" />
+                </View>
+                <Text style={styles.cardText}>{item.text}</Text>
+                <Text style={styles.cardDescription}>{item.description}</Text>
+              </View>
+            )}
+          />
+          {renderDots()}
         </View>
 
-        {/* Horizontal Scrollable Cards */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row', paddingHorizontal: 0 }}>
-          {recommendedListData.map((restaurant) => (
-            <TouchableOpacity key={restaurant.id} className="bg-white rounded-lg p-3 mr-4 min-w-56">
-              <View className="relative">
-                <Image source={{ uri: restaurant.imageUrl }} className="h-32 w-full rounded-lg mb-2" resizeMode="cover" />
-                <View className="absolute top-2 right-2 bg-green-500 px-2 py-1 rounded-full">
-                  <Text className="text-white font-okra-bold text-xs">{restaurant.discount}</Text>
-                </View>
-              </View>
-
-              <Text className="font-okra-bold text-base text-gray-800 truncate">{restaurant.name}</Text>
-              <Text className="font-okra text-sm text-gray-600 mt-1">
-                {restaurant.distance} - ${restaurant.deliveryFee} Delivery fee - {restaurant.time}
-              </Text>
-
-              <View className="flex flex-row justify-between items-center mt-2">
-                <View className="px-0.5 rounded-lg">
-                  <Text>⭐{restaurant.rating}</Text>
-                </View>
-                <View className="flex flex-row gap-2 mt-2">
-                  <View className="flex items-center">
-                    <Text className="bg-pink-200 px-2 rounded-full w-fit font-okra text-sm text-danger">{restaurant.distance}</Text>
-                  </View>
-                  <View className="flex flex-row gap-1 bg-pink-200 px-2 rounded-full justify-between items-center">
-                    <Clock color="#F75555" width={12} height={12} />
-                    <Text className="w-fit font-okra text-sm text-danger">{restaurant.time}</Text>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
-
-      <View className="bg-white w-full p-6">
-        <View className="flex h-full">
-          <TabsComponent />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity 
+            style={styles.primaryButton}
+            onPress={handleSignUp}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.primaryButtonText}>Create Account</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.secondaryButton}
+            onPress={handleSignIn}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.secondaryButtonText}>Already have an account? Sign In</Text>
+          </TouchableOpacity>
         </View>
-      </View>
-
-      {/* Dark Overlay */}
-      {modalVisible && <View style={styles.overlay} />}
-
-      <Modal transparent animationType="slide" visible={modalVisible} onRequestClose={handleModalClose}>
-        <Animated.View
-          style={[styles.modalContainer, { transform: [{ translateY: pan }] }]}
-          {...panResponder.panHandlers}
-        >
-          <View className="bg-white rounded-t-3xl p-6 shadow-lg">
-            <View className="flex flex-row gap-2">
-              <Pressable>
-                <X color="#000" onPress={handleModalClose} />
-              </Pressable>
-              <Text className="font-okra-bold text-lg mb-4">Filter Options</Text>
-            </View>
-
-            <View className="p-3 flex flex-col gap-2">
-              <View className="my-2 gap-2 flex-col flex">
-                <Text className="font-okra">Category</Text>
-                <View className="flex flex-row gap-2 justify-between">
-                  {categories.map((category) => (
-                    <TouchableOpacity
-                      key={category}
-                      onPress={() => handleCategorySelect(category)}
-                      className={`px-8 py-2 w-1/3 rounded-lg border ${filters.category === category
-                        ? 'bg-primary border-primary'
-                        : 'bg-gray-200 border-gray-300'
-                        }`}
-                    >
-                      <Text
-                        className={`font-medium text-center ${filters.category === category
-                          ? 'text-white font-okra-bold'
-                          : 'text-gray-700'
-                          }`}
-                      >
-                        {category}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-
-              <View className="my-2 gap-2 flex-col flex">
-                <Text className="font-okra">Food Groups</Text>
-                <View className="flex flex-row flex-wrap gap-2 justify-start">
-                  {foodGroups.map((group) => (
-                    <TouchableOpacity
-                      key={group.id}
-                      onPress={() => handleFoodGroupSelect(group.name)}
-                      className={`px-8 py-2 rounded-lg border ${filters.foodGroup === group.name
-                        ? 'bg-primary border-primary'
-                        : 'bg-gray-200 border-gray-300'
-                        }`}
-                    >
-                      <Text
-                        className={`font-medium text-center ${filters.foodGroup === group.name
-                          ? 'text-white font-okra-bold'
-                          : 'text-gray-700'
-                          }`}
-                      >
-                        {group.name}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-
-              <View className="my-2 gap-2 flex-col flex">
-                <Text className="font-okra">Rating</Text>
-                <View className="flex flex-row gap-2 justify-between">
-                  {["1", "2", "3", "4", "5"].map((rating) => (
-                    <TouchableOpacity
-                      key={rating}
-                      onPress={() => setFilters((prev) => ({ ...prev, rating }))}
-                      className={`px-3 py-2 rounded-lg ${filters.rating === rating
-                        ? 'bg-primary border-primary'
-                        : 'bg-white '
-                        }`}
-                    >
-                      <Text
-                        className={`text-sm font-medium ${filters.rating === rating
-                          ? 'text-white'
-                          : 'text-gray-700'
-                          }`}
-                      >
-                        {rating} ⭐
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-
-              <View className="my-2 gap-2 flex-col flex">
-                <Text className="font-okra">Price Range</Text>
-                <View className="flex flex-row gap-2 justify-between">
-                  {['$', '$$', '$$$', '$$$$', '$$$$$'].map((price, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() => setFilters((prev) => ({ ...prev, priceRange: price }))}
-                      className={`px-3 py-2 rounded-lg border w-1/6 ${filters.priceRange === price
-                        ? 'bg-primary border-primary'
-                        : 'bg-gray-200 border-gray-300'
-                        }`}
-                    >
-                      <Text
-                        className={`text-sm font-medium text-center ${filters.priceRange === price
-                          ? 'text-white'
-                          : 'text-gray-700'
-                          }`}
-                      >
-                        {price}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-
-            </View>
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              className="bg-primary p-3 rounded-lg items-center mt-auto"
-            >
-              <Text className="text-white font-okra-bold">Apply Filters</Text>
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
-      </Modal>
-
+      </Animated.View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalContainer: {
+  container: {
     flex: 1,
-    justifyContent: 'flex-end',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingVertical: 40,
+  },
+  cardsContainer: {
+    height: 450,
+  },
+  card: {
+    width: width * 0.8,
+    marginHorizontal: width * 0.1,
+    backgroundColor: '#f8f9f',
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#5e17eb',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
+  },
+  cardText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#1a1a1a',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  cardDescription: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    lineHeight: 24,
+  },
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
+  },
+  buttonContainer: {
+    paddingHorizontal: 24,
+    gap: 16,
+  },
+  primaryButton: {
+    backgroundColor: '#5e17eb',
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#5e17eb',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  primaryButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  secondaryButton: {
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: '#5e17eb',
+    fontSize: 16,
   },
 });
