@@ -73,7 +73,7 @@ const SignIn = () => {
           </View>
 
           <View className="mt-8">
-            <Pressable onPress={() => router.push("/")} className="">
+            <Pressable onPress={() => router.push("/home")} className="">
               <Text className="bg-accent text-center text-black-300 border border-primary py-3 rounded-3xl font-okra-bold">
                 Enter as a Guest!
               </Text>
