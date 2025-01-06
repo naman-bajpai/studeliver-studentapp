@@ -88,7 +88,7 @@ export default function Index() {
   };
 
   const handleSignUp = () => {
-    router.replace('/sign-in');
+    router.replace('/');
   };
 
   const renderDots = () => {
