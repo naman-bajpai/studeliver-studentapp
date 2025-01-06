@@ -10,11 +10,13 @@ import {
   FlatList, 
   Dimensions,
   Animated,
-  Platform
+  Platform,
+  Image
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import images from '@/constants/exportsImages';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 interface Card {
   id: string;
@@ -28,6 +30,7 @@ export default function Index() {
   const flatListRef = useRef<FlatList>(null);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
+  const logoFadeAnim = useRef(new Animated.Value(0)).current;
 
   const cards: Card[] = [
     { 
@@ -51,7 +54,7 @@ export default function Index() {
   ];
 
   useEffect(() => {
-    // Initial animation
+    // Initial animations
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -61,6 +64,11 @@ export default function Index() {
       Animated.timing(slideAnim, {
         toValue: 0,
         duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.timing(logoFadeAnim, {
+        toValue: 1,
+        duration: 1200,
         useNativeDriver: true,
       }),
     ]).start();
@@ -103,6 +111,15 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       
+      {/* Logo Section */}
+      <Animated.View style={[styles.logoContainer, { opacity: logoFadeAnim }]}>
+        <Image 
+          source={images.logo_transparent_cropped}
+          style={styles.logo}
+          resizeMode="contain"  
+           />
+      </Animated.View>
+      
       <Animated.View 
         style={[
           styles.content,
@@ -122,7 +139,7 @@ export default function Index() {
             keyExtractor={(item) => item.id}
             onMomentumScrollEnd={(event) => {
               const newIndex = Math.round(
-                event.nativeEvent.contentOffset.x / (width * 0.8 + width * 0.2)
+                event.nativeEvent.contentOffset.x / width
               );
               setActiveIndex(newIndex);
             }}
@@ -164,23 +181,35 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
+  },
+  logoContainer: {
+    alignItems: 'center',
+    paddingTop: Platform.OS === 'ios' ? 20 : 40,
+    paddingBottom: 20,
+    height: height * 0.15, 
+    justifyContent: 'center',
+  },
+  logo: {
+    width: width * 0.75, 
+    height: height * 0.08, 
+    maxHeight: 30, 
+    minHeight: 30, 
   },
   content: {
     flex: 1,
     justifyContent: 'space-between',
-    paddingVertical: 40,
+    paddingTop: 20, // Add some padding to separate from logo
   },
   cardsContainer: {
-    height: 450,
+    height: height * 0.45, // Slightly reduce height to accommodate larger logo
+    justifyContent: 'center',
   },
   card: {
-    width: width * 0.8,
-    marginHorizontal: width * 0.1,
-    backgroundColor: '#f8f9f',
-    borderRadius: 24,
+    width: width,
+    paddingHorizontal: width * 0.1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 24,  
   },
   iconContainer: {
     width: 80,
@@ -204,22 +233,24 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontFamily: 'okra-bold',
     color: '#1a1a1a',
     marginBottom: 12,
     textAlign: 'center',
   },
   cardDescription: {
     fontSize: 16,
+    fontFamily: 'okra',
     color: '#666',
     textAlign: 'center',
     lineHeight: 24,
+    paddingHorizontal: 20,
   },
   pagination: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 24,
+    marginTop: 32,
   },
   dot: {
     width: 8,
@@ -229,12 +260,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingHorizontal: 24,
+    paddingBottom: Platform.OS === 'ios' ? 24 : 32,
     gap: 16,
   },
   primaryButton: {
     backgroundColor: '#5e17eb',
     paddingVertical: 16,
-    borderRadius: 12,
+    borderRadius: 16,
     alignItems: 'center',
     ...Platform.select({
       ios: {
@@ -251,7 +283,7 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'okra-bold',
   },
   secondaryButton: {
     paddingVertical: 12,
@@ -260,5 +292,6 @@ const styles = StyleSheet.create({
   secondaryButtonText: {
     color: '#5e17eb',
     fontSize: 16,
+    fontFamily: 'okra',
   },
 });

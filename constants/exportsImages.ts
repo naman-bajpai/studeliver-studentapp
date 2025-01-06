@@ -13,7 +13,8 @@ import drink from '@/assets/tabicons/cocktail.png'
 import backArrow from '@/assets/images/back_arrow.png'
 import loginmainbg from '@/assets/images/login_bg.png'
 import Avatar from '@/assets/images/signupbg-burger.jpg'
+import studeliverlogo from '@/assets/images/studeliverlogo.png'
 
 export default {
-    logo_transparent, logo_whitebg, logo_transparent_cropped, signupbg, diningbell, diningbell_focused, loginbg, breakfast, pizza, burger, coffee, drink ,backArrow,loginmainbg, Avatar
+    logo_transparent, logo_whitebg, logo_transparent_cropped, signupbg, diningbell, diningbell_focused, loginbg, breakfast, pizza, burger, coffee, drink ,backArrow,loginmainbg, Avatar , studeliverlogo
 }
