@@ -131,8 +131,103 @@ export const recommendedListData = [
         "distance": "11 km",
         "imageUrl": "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/RX_THUMBNAIL/IMAGES/VENDOR/2024/7/28/1a55b465-5808-4201-a939-49540abae3d7_322633.JPG"
     },
+    
+
 ];
 
+export const restaurants = [
+    {
+        "id": 0,
+        "name": "Chick-Fil-A",
+        "tags": [
+            '$$','burger', 'fast food', 
+        ],
+        "discount": "10% OFF",
+        "discountAmount": "up to ₹50",
+        "deliveryFee": "2.99",
+        "rating": 4.8,
+        "time": "30 m",
+        "distance": "5 km",
+        "imageUrl": "https://1000logos.net/wp-content/uploads/2018/01/chick-fil-emblem.jpg",
+        "color": '#b0222b',
+        "address": '123 Chick-fil-A Lane, Food City',
+        "phone": '(123) 456-7890',
+        "email": 'contact@chickfila.com',
+        "items":  [
+            {
+                "id": "1",
+                "name": "Chick-fil-A® Chicken Sandwich",
+                "description": "A boneless breast of chicken seasoned to perfection, freshly breaded, pressure cooked in 100% refined peanut oil, and served on a toasted, buttery bun with dill pickle chips.",
+                "price": 4.85,
+                "image": "https://d1fd34dzzl09j.cloudfront.net/Images/CFACOM/Daypart%20Hero/Winter23/Winter23-DotCom-ChickenSandwich-D_720x748.jpg?la=en&h=748&w=720",
+                "isCustomizable": false,
+                "isVeg": false,
+                "customizationOptions": [],
+                
+            },
+            {
+                "id": "2",
+                "name": "Spicy Chicken Sandwich",
+                "description": "A boneless breast of chicken seasoned with a spicy blend of peppers, freshly breaded, pressure cooked in 100% refined peanut oil, and served on a toasted, buttered bun with dill pickle chips.",
+                "price": 4.95,
+                "image": "https://www.cfacdn.com/img/order/menu/Online/Entrees/CFASpicySandwich_1080.png",
+                "isCustomizable": false,
+                "isVeg": false,
+                "customizationOptions": []
+            },
+            {
+                "id": "3",
+                "name": "Chick-fil-A® Nuggets",
+                "description": "Bite-sized pieces of boneless chicken breast, seasoned to perfection, freshly breaded, and pressure cooked in 100% refined peanut oil.",
+                "price": 8.85,
+                "image": "https://www.cfacdn.com/img/order/menu/Online/Entrees/nuggets_8ct_PDP.png",
+                "isCustomizable": true,
+                "isVeg": false,
+                "customizationOptions": [
+                    {
+                        "type": "Size Options",
+                        "options": [
+                            { "name": "8-count", "price": 8.85 },
+                            { "name": "12-count", "price": 12.75 }
+                        ]
+                    },
+                    {
+                        "type": "Dipping Sauces",
+                        "options": [
+                            { "name": "Chick-fil-A® Sauce", "price": 0 },
+                            { "name": "Polynesian Sauce", "price": 0 },
+                            { "name": "Honey Mustard Sauce", "price": 0 },
+                            { "name": "Garden Herb Ranch Sauce", "price": 0 },
+                            { "name": "Zesty Buffalo Sauce", "price": 0 },
+                            { "name": "Barbeque Sauce", "price": 0 },
+                            { "name": "Sriracha Sauce", "price": 0 }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "4",
+                "name": "Waffle Potato Fries®",
+                "description": "Waffle-cut potatoes cooked in canola oil until crispy outside and tender inside.",
+                "price": 2.29,
+                "image": "https://d1fd34dzzl09j.cloudfront.net/Images/CFACOM/PLP%20updates/Waffle%20Fries/CFA14300_Winter24_MediumFries_PLP_Hero_D_710x580.jpg_master.jpg?la=en&h=580&w=710",
+                "isCustomizable": false,
+                "isVeg": true,
+                "customizationOptions": []
+            },
+            {
+                "id": "5",
+                "name": "Chick-fil-A® Grilled Chicken Sandwich",
+                "description": "A boneless breast of chicken, marinated with a blend of seasonings and grilled for a tender and juicy backyard-smokey taste, served on a toasted multigrain brioche bun with lettuce and tomato.",
+                "price": 5.65,
+                "image": "https://www.cfacdn.com/img/order/COM/Menu_Refresh/Entree/Entree%20PDP/_0000s_0009_Final__0026_CFA_PDP_Grilled-Deluxe-Sandwich_1085.png",
+                "isCustomizable": false,
+                "isVeg": false,
+                "customizationOptions": []
+            }
+        ]
+    }
+]
 
 export const regularFoodData = [
     {
@@ -442,3 +537,6 @@ export const foodGroups = [
     { id: 14, name: 'Spicy' },
 
 ];
+
+
+

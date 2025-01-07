@@ -21,7 +21,7 @@ export default function Layout() {
   useEffect(() => {
     setTimeout(() => {
       setisLoaded(true);
-    }, 1600);
+    }, 800);
     if (fontsLoaded) {
       console.log('Fonts loaded successfully');
       SplashScreen.hideAsync();

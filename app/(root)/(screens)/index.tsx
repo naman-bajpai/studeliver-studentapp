@@ -88,7 +88,7 @@ export default function Index() {
   };
 
   const handleSignUp = () => {
-    router.replace('/');
+    router.replace('/sign-in');
   };
 
   const renderDots = () => {
@@ -172,6 +172,14 @@ export default function Index() {
           >
             <Text style={styles.secondaryButtonText}>Already have an account? Sign In</Text>
           </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.secondaryButton}
+            onPress={() => router.push('/(root)/(screens)/home')}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.secondaryButtonText}>Enter as a guest</Text>
+          </TouchableOpacity>
+          
         </View>
       </Animated.View>
     </SafeAreaView>

@@ -263,7 +263,7 @@ export default function Index() {
         {/* Horizontal Scrollable Cards */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row', paddingHorizontal: 0 }}>
           {recommendedListData.map((restaurant) => (
-            <TouchableOpacity key={restaurant.id} className="bg-white rounded-lg p-3 mr-4 min-w-56">
+            <TouchableOpacity key={restaurant.id} className="bg-white rounded-lg p-3 mr-4 min-w-56" onPress={() => router.push('/restaurant/[0]')}>
               <View className="relative">
                 <Image source={{ uri: restaurant.imageUrl }} className="h-32 w-full rounded-lg mb-2" resizeMode="cover" />
                 <View className="absolute top-2 right-2 bg-green-500 px-2 py-1 rounded-full">
