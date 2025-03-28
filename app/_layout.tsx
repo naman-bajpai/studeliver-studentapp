@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SplashScreenAnimation from '@/components/ui/SplashScreen';
 
-export default function Layout() {
+export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     'Okra-Regular': require("../assets/fonts/Okra-Regular.ttf"),
     'Okra-Bold': require("../assets/fonts/Okra-Bold.ttf"),
@@ -17,35 +17,30 @@ export default function Layout() {
     'Okra-ExtraBold': require("../assets/fonts/Okra-ExtraBold.ttf"),
   });
   const [isLoaded, setisLoaded] = useState(false);
-  SplashScreen.preventAutoHideAsync();
+
   useEffect(() => {
-    setTimeout(() => {
-      setisLoaded(true);
-    }, 800);
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+      setTimeout(() => {
+        setisLoaded(true);
+      }, 800);
+    }
+    prepare();
+  }, []);
+
+  useEffect(() => {
     if (fontsLoaded) {
-      console.log('Fonts loaded successfully');
       SplashScreen.hideAsync();
-    } else {
-      console.log('Font loading failed');
     }
   }, [fontsLoaded]);
 
-  console.log('Current fonts loaded:', fontsLoaded);
-
-  if (!fontsLoaded) {
-    console.log('Returning null because fonts are not loaded yet');
-    return null;
+  if (!fontsLoaded || !isLoaded) {
+    return <SplashScreenAnimation />;
   }
-  
-  console.log('Rendering layout');
 
   return (
-    <GestureHandlerRootView className='flex-1'>
-      {
-        !isLoaded? (<SplashScreenAnimation/>): <Stack screenOptions={{ headerShown: false }} />
-        
-      }
-      
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Stack screenOptions={{ headerShown: false }} />
     </GestureHandlerRootView>
   );
 }

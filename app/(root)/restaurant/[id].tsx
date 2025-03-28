@@ -12,7 +12,7 @@ import { useLocalSearchParams } from "expo-router";
 import { restaurants } from "@/constants/dummyData";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Bookmark, Clock, Minus, Plus, Star, Truck } from "react-native-feather";
-
+import BackArrow from "@/components/backArrow";
 // Define the types for better type safety
 type MenuItem = {
   id: string;
@@ -72,6 +72,7 @@ const FoodVendor = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: selectedRestaurant.color }}>
       {/* Status Bar */}
+      
       <StatusBar
         backgroundColor={selectedRestaurant.color}
         barStyle="light-content"
@@ -79,6 +80,8 @@ const FoodVendor = () => {
       />
 
       {/* Header Section */}
+      <BackArrow/>
+
       <View className="items-center h-1/4">
         <Image
           source={{ uri: selectedRestaurant.imageUrl }}
